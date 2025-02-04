@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra web del clima</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Courgette&family=Inconsolata:wght@200..900&family=Lilita+One&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Protest+Revolution&family=Spicy+Rice&family=Yuji+Mai&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Leaflet Weather Layer para radar -->
+    <script src="https://unpkg.com/leaflet-weather-layer@0.1.1/dist/leaflet-weather-layer.js"></script>
+
+</head>
+<body>
+    <div class="card">
+        <div class="search-bar">
+            <input type="text" id="locationInput" placeholder="Buscar ubicación">
+            <button id="searchButton" >🌎</button>
+            <div class="dot"></div>
+        </div>
+        <div class="content-grid">
+            <div class="left-side">
+                <div class="ubicación" id="location">UBICACIÓN</div>
+                <div class="sección-temp">
+                    <div class="icon" id="weatherIcon">ICONO</div>
+                    <div class="temperature" id="temperature">TEMPERATURA °C</div>
+                </div>
+                <div class="condiciones-meteorológicas">
+                    <div class="condición" id="humidity">Hum</div>
+                    <div class="condición" id="precipitation">Pre</div>
+                    <div class="condición" id="windSpeed">Vel</div>
+                    <div class="condición" id="airQuality">Cal</div>
+                </div>
+            </div>
+            <div class="lado-derecho">
+                <div class="fecha-hora">
+                    <span id="day">DÍA</span>
+                    <span id="date">FECHA</span>
+                    <span id="time">HORA</span>
+                </div>
+                <div class="illustration"></div>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <button class="toggle-btn" data-target="pronostico">Pronostico</button>
+            <button class="toggle-btn" data-target="faseLunar">Fase lunar</button>
+            <button class="toggle-btn" data-target="radar">Radar</button>
+            <button class="toggle-btn" data-target="recomenda">Recomendacion</button>
+        </div>
+    </div>
+    <div class="emergent-container">
+        <!-- Sección: Pronóstico -->
+        <div class="emergent-section" id="pronostico">
+            <div class="pronostico-section">
+                <!-- Pronóstico de los próximos días -->
+                <div class="pronostico-dia-grande">
+                    <h3 id="day0">Pronóstico 1</h3>
+                    <div class="info-clima">
+                        <div class="dato" id="Pronostico0temperature">TEMPERATURA °C</div>
+                        <div class="icon">
+                            <img src="" alt="" id="imgp0">
+                        </div>
+                    </div>
+                </div>
+                <!-- Pronósticos restantes -->
+                <div class="pronostico-dia">
+                    <h3 id="day1">Pronóstico 2</h3>
+                    <div class="info-clima">
+                        <div class="dato" id="Pronostico1temperature">TEMPERATURA °C</div>
+                        <div class="icon">
+                            <img src="" alt="" id="imgp1">
+                        </div>
+                    </div>
+                </div>
+                <div class="pronostico-dia">
+                    <h3 id="day2">Pronóstico 3</h3>
+                    <div class="info-clima">
+                        <div class="dato" id="Pronostico2temperature">TEMPERATURA °C</div>
+                        <div class="icon">
+                            <img src="" alt="" id="imgp2">
+                        </div>
+                    </div>
+                </div>
+                <div class="pronostico-dia">
+                    <h3 id="day3">Pronóstico 4</h3>
+                    <div class="info-clima">
+                        <div class="dato" id="Pronostico3temperature">TEMPERATURA °C</div>
+                        <div class="icon">
+                            <img src="" alt="" id="imgp3">
+                        </div>
+                    </div>
+                </div>
+                <div class="pronostico-dia">
+                    <h3 id="day4">Pronóstico 5</h3>
+                    <div class="info-clima">
+                        <div class="dato" id="Pronostico4temperature">TEMPERATURA °C</div>
+                        <div class="icon">
+                            <img src="" alt="" id="imgp4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Sección: Fase Lunar -->
+        <div class="emergent-section" id="faseLunar">
+            <div class="fase-lunar-container">
+                <div class="fase-lunar">
+                    <div class="etapaFondo">
+                        <div class="etapa" id="etapaFaseLunar">Etapa</div>
+                        <div class="icon" id="fotoFaseLunar">Foto</div>
+                    </div>
+                    <div class="info" id="informacionFaseLunar">Información</div>
+                </div>
+                <div class="proximoFlecha">></div>
+                <div class="fase-lunar">
+                    <div class="etapaFondo">
+                        <div class="etapa" id="etapaFaseLunarProximo">Etapa</div>
+                        <div class="icon" id="fotoFaseLunarProximo">Foto</div>
+                    </div>
+                    <div class="info" id="ProximaLunaLlena">Próxima luna llena</div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Sección: Radar -->
+        <div class="emergent-section" id="radar">
+            <div class="mapa-radar">
+                <div id="radarMap" style="height: 400px; width: 100%;"></div>
+                <div class="fecha-hora-mapa">
+                    <span id="radar-day">Día</span>
+                    <span id="radar-date">Fecha</span>
+                    <span id="radar-time">Hora</span>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Sección: Recomendaciones -->
+        <div class="emergent-section" id="recomenda">
+            <div class="recomendaciones-container">
+                <div class="mensaje" id="mensajeDinamico">Mensaje dinámico</div>
+                <div class="imagen" id="imagenIlustrativa">Imagen Ilustrativa</div>
+                <div class="recomendaciones">
+                    <div id="recomendacionUno">Recomendación 1</div>
+                    <div id="recomendacionDos">Recomendación 2</div>
+                    <div id="recomendacionTres">Recomendación 3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

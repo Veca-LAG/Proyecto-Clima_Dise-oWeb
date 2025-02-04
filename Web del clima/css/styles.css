@@ -1,0 +1,493 @@
+
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #3f606a;
+  padding: 20px;
+}
+
+/* Tarjeta principal */
+.card {
+  background-color: rgb(192, 224, 222);
+  border-radius: 25px;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Barra de búsqueda */
+.search-bar {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  font-size: 16px;
+}
+
+.icon {
+  font-size: 100px; /* Tamaño del ícono */
+  display: inline-block;
+  line-height: 1; /* Asegúrate de que el ícono esté bien centrado */
+}
+
+.icon img {
+  height: 80px;
+  width: 80px;
+}
+
+.search-bar button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 15px;
+  border: none;
+  border-radius: 15px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+/* Grid de contenido */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Lado izquierdo */
+.left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ubicación {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sección-temp {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.icon {
+  background-color: #e1e0e0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.temperature {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 24px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Condiciones meteorológicas */
+.condiciones-meteorológicas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.condición {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Lado derecho */
+.lado-derecho {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fecha-hora {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.illustration {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navegación inferior */
+/*.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.nav-item {
+  background-color: #f0f0f0;
+  padding: 12px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}*/
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .content-grid {
+      grid-template-columns: 1fr;
+  }
+  
+  .bottom-nav {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-nav {
+      grid-template-columns: 1fr;
+  }
+}
+
+
+/*botones*/
+/* Contenedor de los botones */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Botones */
+.toggle-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #4b5c6d;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Contenedor de las secciones */
+.emergent-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  min-height: 150px; /* Altura fija para mantener todo alineado */
+}
+
+/* Sección emergente */
+.emergent-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mostrar sección emergente */
+.emergent-section.visible {
+  opacity: 1;
+  background: rgb(192, 224, 222);
+  transform: scaleY(1);
+  border-radius: 20px;
+}
+
+/************************************ abajo *************************************/
+/* Pronóstico */
+.pronostico-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.pronostico-dia-grande {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgb(90, 157, 152);
+  padding: 10px;
+  border-radius: 20px;
+  width: 160px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pronostico-dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fcfafa;
+  padding: 10px;
+  border-radius: 20px;
+  width: 130px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-clima {
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos estén en columna */
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+  text-align: center; /* Asegura que el texto también se centre */
+}
+
+.dato {
+  font-size: 14px;
+  font-weight: bold;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+
+
+/* Fase Lunar */
+/*.fase-lunar-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.fase-lunar {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}*/
+/* Contenedor principal */
+.fase-lunar-container {
+  display: flex;
+  justify-content: center; /* Centra las fases lunares horizontalmente */
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+}
+
+/* Estilo de cada fase lunar */
+.fase-lunar {
+  display: flex;
+  align-items: center; /* Alinea los elementos en el centro */
+  background: rgb(90, 157, 152);
+  padding: 5px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  min-width: 250px;
+  max-width: 600px; /* Ajusta según necesidad */
+}
+
+/* Contenedor de la etapa y la foto */
+.etapaFondo {
+  display: flex;
+  flex-direction: column; /* Asegura que la etapa esté arriba y la foto abajo */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
+  padding: 10px;
+}
+.proximoFlecha{
+  font-size: 70px;
+  font-weight: 200;
+}
+/* Estilos para la etapa (nombre de la fase lunar) */
+.etapa {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Información al lado de la etapa y la foto */
+.info {
+  flex: 1; /* Permite que el texto se expanda según el contenido */
+  padding-left: 15px;
+  font-size: 14px;
+}
+
+/*+++++++++++ Radar ++++++++++++*/
+.mapa-radar {
+  background: #dfe4ea;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative; /* Permite posicionar la fecha-hora dentro */
+  width: 90%; /* Ajusta el ancho para ocupar más espacio */
+  max-width: 800px; /* Mayor ancho para evitar espacios vacíos */
+  height: 450px; /* Aumentar altura para que la info no esté apretada */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Asegura que el mapa no tape la fecha y hora */
+  align-items: center;
+  overflow: hidden; /* Evita que el contenido sobresalga */
+  margin: 0 auto; /* Centra horizontalmente */
+}
+
+/* Contenedor de la fecha y hora */
+.fecha-hora-mapa {
+  position: absolute;
+  top: 15px; /* Baja ligeramente la posición */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6); /* Fondo más oscuro para mejor contraste */
+  color: white;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 2000; /* Asegura que quede sobre el mapa */
+  white-space: nowrap; /* Evita saltos de línea */
+  display: flex;
+  gap: 10px; /* Espacio entre los spans */
+  align-items: center;
+}
+
+/* Permitir que el div del radar contenga una imagen de fondo */
+/* Estilo para el contenedor de mapa del radar */
+.mapa-radar {
+  width: 100%;
+  max-width: 800px;
+  height: 400px; /* Asegurar altura suficiente */
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Permitir que el div del radar contenga una imagen de fondo */
+.mapa-radar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('URL_DE_LA_IMAGEN') no-repeat center center;
+  background-size: cover;
+  opacity: 0.8; /* Ajuste de transparencia */
+  z-index: 0; /* Asegúrate de que la imagen esté detrás del mapa */
+}
+
+/* Asegúrate de que el mapa tenga un z-index alto para que se vea por encima */
+#radarMap {
+  position: relative;
+  z-index: 1; /* Coloca el mapa encima de la imagen de fondo */
+}
+
+/* Asegurar que el cuadro de selección de capas se vea correctamente en el mapa */
+.leaflet-control-layers {
+  z-index: 1000 !important; /* Asegura que el control de capas esté sobre el mapa */
+  position: absolute !important; /* Asegura que no se oculte */
+  top: 10px !important; /* Ajusta la posición en la parte superior */
+  right: 10px !important; /* Alinea a la derecha */
+  background: rgba(255, 255, 255, 0.9) !important; /* Fondo visible */
+  padding: 8px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+
+
+/*+++++++++++++ Recomendaciones ++++++++++++++*/
+.recomendaciones-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+  justify-content: space-between; /* Distribuye los elementos uniformemente */
+  align-items: stretch; /* Hace que los elementos tengan la misma altura */
+  gap: 10px;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  max-width: 800px; /* Ajusta el ancho máximo según sea necesario */
+  margin: 0 auto; /* Centra el contenedor */
+}
+.mensaje {
+  background: #d6ffcf;
+  padding: 15px;
+  border-radius: 8px;
+  flex: 1 1 100%;
+  min-width: 200px;
+  text-align: center;
+  font-family: "Lilita One", serif; /* Aplica la fuente Lilita One */
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  width: 100%;
+}
+
+
+
+/* Estilo para la imagen */
+.imagen {
+  background: #aed6f1;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1 1 30%; /* Se ajusta como el mensaje */
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Contenedor de recomendaciones */
+.recomendaciones {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 30%; /* Ajuste flexible al espacio */
+  min-width: 200px;
+  gap: 5px;
+}
+
+/* Estilo para cada recomendación */
+.recomendaciones div {
+  background: #f5b7b1;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  flex-grow: 1; /* Permite que los elementos se expandan si es necesario */
+}
