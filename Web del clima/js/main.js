@@ -393,3 +393,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateUI(data);
     actualizarRecomendaciones(data.weather);
 });
+
+//********fase de la luna********/
+
+/*(function() {
+    var d = new Date().getDate();
+    var m = document.querySelectorAll("#faseLunar .fase-lunar .etapaFondo .icon");
+    var info = document.querySelectorAll("#faseLunar .fase-lunar .info");
+    var a = new XMLHttpRequest();
+    var url = "https://www.icalendar37.net/lunar/api/?lang=es&month=" + (new Date().getMonth() + 1) + "&year=" + (new Date().getFullYear()) + "&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=" + new Date(new Date().getFullYear(), new Date().getMonth(), 1) / 1000;
+    
+    a.onreadystatechange = function() {
+        if (a.readyState == 4 && a.status == 200) {
+            
+            var b = JSON.parse(a.responseText);
+            m[0].innerHTML = b.phase[d].svg;
+            info[0].innerHTML = b.phase[d].npWidget;
+            info[1].innerHTML = "Próxima luna llena<br>" + b.nextFullMoon;
+        }
+    };
+    a.open("GET", url, true);
+    a.send();
+})();*/
+document.addEventListener("DOMContentLoaded", () => {
+    obtenerDatosFaseLunar();
+});
+
+function obtenerDatosFaseLunar() {
+    const fecha = new Date();
+    const dia = fecha.getDate();
+    const mes = fecha.getMonth() + 1;
+    const año = fecha.getFullYear();
+    const url = `https://www.icalendar37.net/lunar/api/?lang=es&month=${mes}&year=${año}&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=${new Date(año, mes - 1, 1) / 1000}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(datos => actualizarFasesLunares(datos, dia))
+        .catch(error => console.error("Error obteniendo datos de la fase lunar:", error));
+}
+
+function actualizarFasesLunares(datos, dia) {
+    if (!datos.phase || !datos.phase[dia]) {
+        console.error("No se encontraron datos para la fase lunar actual.");
+        return;
+    }
+
+    // Datos actuales
+    document.getElementById("etapaFaseLunar").textContent = datos.phase[dia].name;
+    document.getElementById("fotoFaseLunar").innerHTML = datos.phase[dia].svg;
+    document.getElementById("informacionFaseLunar").textContent = datos.phase[dia].npWidget;
+
+    // Próxima luna llena
+    document.getElementById("etapaFaseLunarProximo").textContent = "Luna llena";
+    document.getElementById("fotoFaseLunarProximo").innerHTML = datos.nextFullMoonPhase.svg;
+    document.getElementById("ProximaLunaLlena").innerHTML = `Próxima luna llena: <br> ${datos.nextFullMoon}`;
+}

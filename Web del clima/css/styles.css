@@ -55,12 +55,13 @@ body {
 
 .search-bar button {
   position: absolute;
+  font-size: 25px;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 8px 15px;
+  padding: 4px 4px;
   border: none;
-  border-radius: 15px;
+  border-radius: 40px;
   background-color: #e0e0e0;
   cursor: pointer;
 }
