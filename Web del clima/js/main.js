@@ -395,56 +395,52 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 //********fase de la luna********/
-
-/*(function() {
+(function() {
     var d = new Date().getDate();
-    var m = document.querySelectorAll("#faseLunar .fase-lunar .etapaFondo .icon");
-    var info = document.querySelectorAll("#faseLunar .fase-lunar .info");
+    var etapaFase = document.getElementById("etapaFaseLunar");
+    var infoFase = document.getElementById("informacionFaseLunar");
+    var proximaLuna = document.getElementById("ProximaLunaLlena");
+    var fotoFase = document.getElementById("fotoFaseLunar");
+    var fotoProximaLuna = document.getElementById("fotoFaseLunarProximo");
+
+    var mensajesFase = {
+        "Luna Nueva": "Es un buen momento para nuevos comienzos y reflexionar sobre tus metas.",
+        "Creciente": "Momento de acción y crecimiento. Es ideal para iniciar proyectos.",
+        "Luna Llena": "Energía en su punto máximo. Es una buena época para celebrar logros.",
+        "Cuarto Menguante": "Tiempo de introspección y limpieza, ideal para soltar lo que no necesitas."
+    };
+
     var a = new XMLHttpRequest();
     var url = "https://www.icalendar37.net/lunar/api/?lang=es&month=" + (new Date().getMonth() + 1) + "&year=" + (new Date().getFullYear()) + "&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=" + new Date(new Date().getFullYear(), new Date().getMonth(), 1) / 1000;
     
     a.onreadystatechange = function() {
         if (a.readyState == 4 && a.status == 200) {
-            
             var b = JSON.parse(a.responseText);
-            m[0].innerHTML = b.phase[d].svg;
-            info[0].innerHTML = b.phase[d].npWidget;
-            info[1].innerHTML = "Próxima luna llena<br>" + b.nextFullMoon;
+            var faseActual = b.phase[d].phaseName;
+            
+            // Asignar valores a los elementos HTML
+            etapaFase.innerHTML = faseActual;
+
+           // var mensajeFaseLunar
+
+            infoFase.innerHTML = mensajesFase[faseActual] || "Información sobre la fase lunar no disponible.";
+            proximaLuna.innerHTML = "Próxima luna llena: " + b.nextFullMoon;
+            fotoFase.innerHTML = b.phase[d].svg;
+            
+            // Buscar la fase de la luna llena dentro del mes
+            var lunaLlenaSvg = "";
+            for (var i in b.phase) {
+                if (b.phase[i].phaseName === "Full Moon") {
+                    lunaLlenaSvg = b.phase[i].svg;
+                    break;
+                }
+            }
+
+            // Mostrar solo una imagen de la luna llena
+            fotoProximaLuna.innerHTML = lunaLlenaSvg;
         }
     };
+    
     a.open("GET", url, true);
     a.send();
-})();*/
-document.addEventListener("DOMContentLoaded", () => {
-    obtenerDatosFaseLunar();
-});
-
-function obtenerDatosFaseLunar() {
-    const fecha = new Date();
-    const dia = fecha.getDate();
-    const mes = fecha.getMonth() + 1;
-    const año = fecha.getFullYear();
-    const url = `https://www.icalendar37.net/lunar/api/?lang=es&month=${mes}&year=${año}&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=${new Date(año, mes - 1, 1) / 1000}`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(datos => actualizarFasesLunares(datos, dia))
-        .catch(error => console.error("Error obteniendo datos de la fase lunar:", error));
-}
-
-function actualizarFasesLunares(datos, dia) {
-    if (!datos.phase || !datos.phase[dia]) {
-        console.error("No se encontraron datos para la fase lunar actual.");
-        return;
-    }
-
-    // Datos actuales
-    document.getElementById("etapaFaseLunar").textContent = datos.phase[dia].name;
-    document.getElementById("fotoFaseLunar").innerHTML = datos.phase[dia].svg;
-    document.getElementById("informacionFaseLunar").textContent = datos.phase[dia].npWidget;
-
-    // Próxima luna llena
-    document.getElementById("etapaFaseLunarProximo").textContent = "Luna llena";
-    document.getElementById("fotoFaseLunarProximo").innerHTML = datos.nextFullMoonPhase.svg;
-    document.getElementById("ProximaLunaLlena").innerHTML = `Próxima luna llena: <br> ${datos.nextFullMoon}`;
-}
+})();
